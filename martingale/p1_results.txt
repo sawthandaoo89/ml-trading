@@ -1,0 +1,9 @@
+Experiment 1 (Unlimited Bankroll)
+P(final == 80): 1.000000
+P(final >= 80): 1.000000
+E[final winnings]: 80.000000
+
+Experiment 2 (Bankroll = 256)
+P(final == 80): 0.646000
+P(final >= 80): 0.646000
+E[final winnings]: -38.653000
