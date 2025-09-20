@@ -1,5 +1,6 @@
 """"""  		  	   		 	 	 		  		  		    	 		 		   		 		  
-"""MC3-P1: Bag Learner.  		  	   		 	 	 		  		  		    	 		 		   		 		  
+"""  		  	   		 	 	 		  		  		    	 		 		   		 		  
+Bag Learner.  (c) 2015 Tucker Balch  		  	   		 	 	 		  		  		    	 		 		   		 		  
   		  	   		 	 	 		  		  		    	 		 		   		 		  
 Copyright 2018, Georgia Institute of Technology (Georgia Tech)  		  	   		 	 	 		  		  		    	 		 		   		 		  
 Atlanta, Georgia 30332  		  	   		 	 	 		  		  		    	 		 		   		 		  
@@ -23,19 +24,19 @@ GT honor code violation.
 """  		  	   		 	 	 		  		  		    	 		 		   		 		  
   		  	   		 	 	 		  		  		    	 		 		   		 		  
 import numpy as np  		  	   		 	 	 		  		  		    	 		 		   		 		  
-from RTLearner import RTLearner  		  	   		 	 	 		  		  		    	 		 		   		 		  
+  		  	   		 	 	 		  		  		    	 		 		   		 		  
   		  	   		 	 	 		  		  		    	 		 		   		 		  
 class BagLearner(object):  		  	   		 	 	 		  		  		    	 		 		   		 		  
     """  		  	   		 	 	 		  		  		    	 		 		   		 		  
-    This is a Bag Learner. It is implemented correctly.  		  	   		 	 	 		  		  		    	 		 		   		 		  
+    This is a Bag Learner.  		  	   		 	 	 		  		  		    	 		 		   		 		  
   		  	   		 	 	 		  		  		    	 		 		   		 		  
-    :param learner: The learner class to use for bagging  		  	   		 	 	 		  		  		    	 		 		   		 		  
+    :param learner: The learning algorithm to use for bagging.  		  	   		 	 	 		  		  		    	 		 		   		 		  
     :type learner: class  		  	   		 	 	 		  		  		    	 		 		   		 		  
-    :param kwargs: Keyword arguments to pass to the learner constructor  		  	   		 	 	 		  		  		    	 		 		   		 		  
+    :param kwargs: Keyword arguments to be passed on to the learner's constructor.  		  	   		 	 	 		  		  		    	 		 		   		 		  
     :type kwargs: dict  		  	   		 	 	 		  		  		    	 		 		   		 		  
-    :param bags: Number of bags to use in bagging  		  	   		 	 	 		  		  		    	 		 		   		 		  
+    :param bags: Number of bags to use in the bagging process.  		  	   		 	 	 		  		  		    	 		 		   		 		  
     :type bags: int  		  	   		 	 	 		  		  		    	 		 		   		 		  
-    :param boost: Whether to use boosting (not implemented in this version)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+    :param boost: If True, use boosting instead of bagging.  		  	   		 	 	 		  		  		    	 		 		   		 		  
     :type boost: bool  		  	   		 	 	 		  		  		    	 		 		   		 		  
     :param verbose: If "verbose" is True, your code can print out information for debugging.  		  	   		 	 	 		  		  		    	 		 		   		 		  
         If verbose = False your code should not generate ANY output. When we test your code, verbose will be False.  		  	   		 	 	 		  		  		    	 		 		   		 		  
@@ -51,15 +52,23 @@ class BagLearner(object):
         self.boost = boost  		  	   		 	 	 		  		  		    	 		 		   		 		  
         self.verbose = verbose  		  	   		 	 	 		  		  		    	 		 		   		 		  
         self.learners = []  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        self.learner_weights = []  # For boosting weights  		  	   		 	 	 		  		  		    	 		 		   		 		  
   		  	   		 	 	 		  		  		    	 		 		   		 		  
     def author(self):  		  	   		 	 	 		  		  		    	 		 		   		 		  
         """  		  	   		 	 	 		  		  		    	 		 		   		 		  
         :return: The GT username of the student  		  	   		 	 	 		  		  		    	 		 		   		 		  
         :rtype: str  		  	   		 	 	 		  		  		    	 		 		   		 		  
         """  		  	   		 	 	 		  		  		    	 		 		   		 		  
-        return "soo7"  # replace soo7 with your Georgia Tech username  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        return "soo7"  # replace with your Georgia Tech username  		  	   		 	 	 		  		  		    	 		 		   		 		  
   		  	   		 	 	 		  		  		    	 		 		   		 		  
-    def add_evidence(self, data_x, data_y):  		  	   		 	 	 		  		  		    	 		 		   		 		  
+    def study_group(self):  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        """  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        :return: The study group of the student  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        :rtype: str  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        """  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        return "soo7" 	  	   		 	 	 		  		  		    	 		 		   		 		  
+  		  	   		 	 	 		  		  		    	 		 		   		 		  
+    def add_evidence(self, data_x, data_y):  		  	   		 	 	 		  		  		    	 		  		 		   		 		  
         """  		  	   		 	 	 		  		  		    	 		 		   		 		  
         Add training data to learner  		  	   		 	 	 		  		  		    	 		 		   		 		  
   		  	   		 	 	 		  		  		    	 		 		   		 		  
@@ -68,25 +77,67 @@ class BagLearner(object):
         :param data_y: The value we are attempting to predict given the X data  		  	   		 	 	 		  		  		    	 		 		   		 		  
         :type data_y: numpy.ndarray  		  	   		 	 	 		  		  		    	 		 		   		 		  
         """  		  	   		 	 	 		  		  		    	 		 		   		 		  
-        # Clear existing learners  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        # Clear any existing learners and weights  		  	   		 	 	 		  		  		    	 		 		   		 		  
         self.learners = []  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        self.learner_weights = []  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        n_samples = data_x.shape[0]  		  	   		 	 	 		  		  		    	 		 		   		 		  
   		  	   		 	 	 		  		  		    	 		 		   		 		  
-        # Create and train multiple learners using bagging  		  	   		 	 	 		  		  		    	 		 		   		 		  
-        for i in range(self.bags):  		  	   		 	 	 		  		  		    	 		 		   		 		  
-            # Create a new learner instance  		  	   		 	 	 		  		  		    	 		 		   		 		  
-            learner_instance = self.learner(**self.kwargs)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        if self.boost:  		  	   		 	 	 		  		  		    	 		 		   		 		  
+            # AdaBoost implementation  		  	   		 	 	 		  		  		    	 		 		   		 		  
+            sample_weights = np.ones(n_samples) / n_samples  # Initialize weights  		  	   		 	 	 		  		  		    	 		 		   		 		  
   		  	   		 	 	 		  		  		    	 		 		   		 		  
-            # Generate bootstrap sample (with replacement)  		  	   		 	 	 		  		  		    	 		 		   		 		  
-            n_samples = data_x.shape[0]  		  	   		 	 	 		  		  		    	 		 		   		 		  
-            indices = np.random.choice(n_samples, size=n_samples, replace=True)  		  	   		 	 	 		  		  		    	 		 		   		 		  
-            bootstrap_x = data_x[indices]  		  	   		 	 	 		  		  		    	 		 		   		 		  
-            bootstrap_y = data_y[indices]  		  	   		 	 	 		  		  		    	 		 		   		 		  
+            for i in range(self.bags):  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                # Create weighted bootstrap sample  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                bootstrap_indices = np.random.choice(n_samples, size=n_samples, replace=True, p=sample_weights)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                bag_x = data_x[bootstrap_indices]  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                bag_y = data_y[bootstrap_indices]  		  	   		 	 	 		  		  		    	 		 		   		 		  
   		  	   		 	 	 		  		  		    	 		 		   		 		  
-            # Train the learner on the bootstrap sample  		  	   		 	 	 		  		  		    	 		 		   		 		  
-            learner_instance.add_evidence(bootstrap_x, bootstrap_y)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                # Create and train learner  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                learner_instance = self.learner(**self.kwargs)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                learner_instance.add_evidence(bag_x, bag_y)  		  	   		 	 	 		  		  		    	 		 		   		 		  
   		  	   		 	 	 		  		  		    	 		 		   		 		  
-            # Add the trained learner to our list  		  	   		 	 	 		  		  		    	 		 		   		 		  
-            self.learners.append(learner_instance)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                # Get predictions on original data  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                predictions = learner_instance.query(data_x)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                # Calculate weighted error  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                errors = np.abs(predictions - data_y)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                weighted_error = np.sum(sample_weights * errors) / np.sum(sample_weights)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                # Calculate learner weight (alpha) with bounds checking  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                if weighted_error > 0 and weighted_error < 0.5:  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                    alpha = 0.5 * np.log((1 - weighted_error) / weighted_error)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                elif weighted_error >= 0.5:  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                    alpha = 0.1  # Small weight for poor learners  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                else:  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                    alpha = 1.0  # Perfect learner  		  	   		 	 	 		  		  		    	 		 		   		 		  
+  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                # Update sample weights with numerical stability  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                margin = 2 * (predictions > data_y) - 1  # +1 if prediction > actual, -1 otherwise  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                sample_weights *= np.exp(-alpha * margin)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                sample_weights = np.nan_to_num(sample_weights, nan=1.0/n_samples)  # Handle NaN values  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                sample_weights /= np.sum(sample_weights)  # Normalize  		  	   		 	 	 		  		  		    	 		 		   		 		  
+  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                # Store learner and weight  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                self.learners.append(learner_instance)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                self.learner_weights.append(alpha)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        else:  		  	   		 	 	 		  		  		    	 		 		   		 		  
+            # Standard bagging implementation  		  	   		 	 	 		  		  		    	 		 		   		 		  
+            for i in range(self.bags):  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                # Create bootstrap sample (sample with replacement)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                bootstrap_indices = np.random.choice(n_samples, size=n_samples, replace=True)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                bag_x = data_x[bootstrap_indices]  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                bag_y = data_y[bootstrap_indices]  		  	   		 	 	 		  		  		    	 		 		   		 		  
+  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                # Create a new learner instance with the provided kwargs  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                learner_instance = self.learner(**self.kwargs)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                # Train the learner on the bootstrap sample  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                learner_instance.add_evidence(bag_x, bag_y)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                # Add the trained learner to our ensemble  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                self.learners.append(learner_instance)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+                self.learner_weights.append(1.0)  # Equal weights for bagging  		  	   		 	 	 		  		  		    	 		 		   		 		  
   		  	   		 	 	 		  		  		    	 		 		   		 		  
     def query(self, points):  		  	   		 	 	 		  		  		    	 		 		   		 		  
         """  		  	   		 	 	 		  		  		    	 		 		   		 		  
@@ -98,19 +149,22 @@ class BagLearner(object):
         :rtype: numpy.ndarray  		  	   		 	 	 		  		  		    	 		 		   		 		  
         """  		  	   		 	 	 		  		  		    	 		 		   		 		  
         if not self.learners:  		  	   		 	 	 		  		  		    	 		 		   		 		  
-            raise ValueError("Model not trained yet. Call add_evidence first.")  		  	   		 	 	 		  		  		    	 		 		   		 		  
+            return np.zeros(points.shape[0])  		  	   		 	 	 		  		  		    	 		 		   		 		  
   		  	   		 	 	 		  		  		    	 		 		   		 		  
-        # Get predictions from all learners  		  	   		 	 	 		  		  		    	 		 		   		 		  
-        all_predictions = []  		  	   		 	 	 		  		  		    	 		 		   		 		  
-        for learner in self.learners:  		  	   		 	 	 		  		  		    	 		 		   		 		  
-            predictions = learner.query(points)  		  	   		 	 	 		  		  		    	 		 		   		 		  
-            all_predictions.append(predictions)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        # Get predictions from all learners in the ensemble  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        predictions = np.zeros((len(self.learners), points.shape[0]))  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        for i, learner in enumerate(self.learners):  		  	   		 	 	 		  		  		    	 		 		   		 		  
+            predictions[i] = learner.query(points)  		  	   		 	 	 		  		  		    	 		 		   		 		  
   		  	   		 	 	 		  		  		    	 		 		   		 		  
-        # Convert to numpy array for easier computation  		  	   		 	 	 		  		  		    	 		 		   		 		  
-        all_predictions = np.array(all_predictions)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        if self.boost:  		  	   		 	 	 		  		  		    	 		 		   		 		  
+            # Weighted average for boosting  		  	   		 	 	 		  		  		    	 		 		   		 		  
+            weights = np.array(self.learner_weights)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+            weights = weights / np.sum(weights)  # Normalize weights  		  	   		 	 	 		  		  		    	 		 		   		 		  
+            return np.average(predictions, axis=0, weights=weights)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+        else:  		  	   		 	 	 		  		  		    	 		 		   		 		  
+            # Average the predictions from all learners (bootstrap aggregation)  		  	   		 	 	 		  		  		    	 		 		   		 		  
+            return np.mean(predictions, axis=0)  		  	   		 	 	 		  		  		    	 		 		   		 		  
   		  	   		 	 	 		  		  		    	 		 		   		 		  
-        # Return the mean prediction across all learners (ensemble prediction)  		  	   		 	 	 		  		  		    	 		 		   		 		  
-        return np.mean(all_predictions, axis=0)  		  	   		 	 	 		  		  		    	 		 		   		 		  
   		  	   		 	 	 		  		  		    	 		 		   		 		  
 if __name__ == "__main__":  		  	   		 	 	 		  		  		    	 		 		   		 		  
-    print("the secret clue is 'zzyzx'") 
+    print("the secret clue is 'zzyzx'")  		  	   		 	 	 		  		  		    	 		 		   		 		  
